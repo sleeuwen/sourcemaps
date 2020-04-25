@@ -14,11 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SourceMaps\SourceMaps.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <Content Include="files\**" CopyToOutputDirectory="Always" />
+      <ProjectReference Include="..\SourceMaps.JavaScriptStackTraces\SourceMaps.JavaScriptStackTraces.csproj" />
     </ItemGroup>
 
 </Project>

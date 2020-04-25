@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace SourceMaps
@@ -9,6 +11,8 @@ namespace SourceMaps
         public static SourceMap Parse(string sourceMapString)
         {
             var sourceMap = JsonSerializer.Deserialize<SourceMap>(sourceMapString);
+            if (!string.IsNullOrEmpty(sourceMap.SourceRoot))
+                sourceMap.Sources = sourceMap.Sources.Select(source => Path.Join(sourceMap.SourceRoot, source)).ToList();
             sourceMap.ParsedMappings = ParseMappings(sourceMap.Mappings, sourceMap.Names, sourceMap.Sources);
             return sourceMap;
         }
@@ -51,14 +55,14 @@ namespace SourceMaps
 
             if (segmentFields.Count > 1)
             {
-                state.SourcesListIndex += segmentFields[1];
-                state.OriginalSourceStartingLineNumber += segmentFields[2];
-                state.OriginalSourceStartingColumnNumber += segmentFields[3];
+                state.SourcesListIndex = (state.SourcesListIndex ?? 0) + segmentFields[1];
+                state.OriginalSourceStartingLineNumber = (state.OriginalSourceStartingLineNumber ?? 0) + segmentFields[2];
+                state.OriginalSourceStartingColumnNumber = (state.OriginalSourceStartingColumnNumber ?? 0) + segmentFields[3];
             }
 
             if (segmentFields.Count >= 5)
             {
-                state.NamesListIndex += segmentFields[4];
+                state.NamesListIndex = (state.NamesListIndex ?? 0) + segmentFields[4];
             }
         }
     }

@@ -4,6 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceMaps", "SourceMaps\So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceMaps.Tests", "SourceMaps.Tests\SourceMaps.Tests.csproj", "{AECB0298-2B75-48B1-BC7F-A0A9B9DC674E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceMaps.JavaScriptStackTraces", "SourceMaps.JavaScriptStackTraces\SourceMaps.JavaScriptStackTraces.csproj", "{1D602CA0-92B6-46F2-83BC-AEABC4A7BF9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{089B0500-1D8F-43DC-A1FA-F1C0D84A8713}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceMaps.JavaScriptStackTraces.Tests", "SourceMaps.JavaScriptStackTraces.Tests\SourceMaps.JavaScriptStackTraces.Tests.csproj", "{3B8F2B23-9F06-41F8-8469-58A9A46F3BB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{AECB0298-2B75-48B1-BC7F-A0A9B9DC674E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AECB0298-2B75-48B1-BC7F-A0A9B9DC674E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AECB0298-2B75-48B1-BC7F-A0A9B9DC674E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D602CA0-92B6-46F2-83BC-AEABC4A7BF9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D602CA0-92B6-46F2-83BC-AEABC4A7BF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D602CA0-92B6-46F2-83BC-AEABC4A7BF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D602CA0-92B6-46F2-83BC-AEABC4A7BF9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{089B0500-1D8F-43DC-A1FA-F1C0D84A8713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{089B0500-1D8F-43DC-A1FA-F1C0D84A8713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{089B0500-1D8F-43DC-A1FA-F1C0D84A8713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{089B0500-1D8F-43DC-A1FA-F1C0D84A8713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B8F2B23-9F06-41F8-8469-58A9A46F3BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B8F2B23-9F06-41F8-8469-58A9A46F3BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B8F2B23-9F06-41F8-8469-58A9A46F3BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B8F2B23-9F06-41F8-8469-58A9A46F3BB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

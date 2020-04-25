@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.IO;
+using Xunit;
 
 namespace SourceMaps.Tests
 {
@@ -141,5 +143,61 @@ namespace SourceMaps.Tests
             Sources = new List<string> { "example.js" },
             Mappings = "AAgCA,C"
         };
+
+        public static void AssertMapping(
+            int generatedLine,
+            int generatedColumn,
+            string originalSource,
+            int? originalLine,
+            int? originalColumn,
+            string name,
+            SourceMap map)
+        {
+            var mapping = map.OriginalPositionFor(new SourcePosition(generatedLine, generatedColumn)).Value;
+            Assert.Equal(name, mapping.OriginalName);
+            Assert.Equal(originalLine ?? 0, mapping.OriginalSourcePosition.LineNumber);
+            Assert.Equal(originalColumn ?? 0, mapping.OriginalSourcePosition.ColumnNumber);
+
+            var expectedSource = (originalSource, map.SourceRoot) switch
+            {
+                var (source, root) when source?.IndexOf(root) == 0 => source,
+                var (source, root) when source != null && root != null => Path.Join(root, source),
+                var (source, root) when source != null => source,
+                _ => null,
+            };
+
+            Assert.Equal(expectedSource, mapping.OriginalFileName);
+        }
+
+        public static void AssertEqualMaps(SourceMap expected, SourceMap actual)
+        {
+            Assert.Equal(expected.Version, actual.Version);
+            Assert.Equal(expected.File, actual.File);
+            Assert.Equal(expected.Names.Count, actual.Names.Count);
+
+            for (var i = 0; i < expected.Names.Count; i++)
+            {
+                Assert.Equal(expected.Names[i], actual.Names[i]);
+            }
+
+            Assert.Equal(expected.Sources.Count, actual.Sources.Count);
+
+            for (var i = 0; i < expected.Sources.Count; i++)
+            {
+                Assert.Equal(expected.Sources[i], actual.Sources[i]);
+            }
+
+            Assert.Equal(expected.SourceRoot, actual.SourceRoot);
+            Assert.Equal(expected.Mappings, actual.Mappings);
+
+            if (expected.SourcesContent != null)
+            {
+                Assert.Equal(expected.SourcesContent.Count, actual.SourcesContent.Count);
+                for (var i = 0; i < expected.SourcesContent.Count; i++)
+                {
+                    Assert.Equal(expected.SourcesContent[i], actual.SourcesContent[i]);
+                }
+            }
+        }
     }
 }

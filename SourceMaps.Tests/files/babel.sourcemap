@@ -1,0 +1,1 @@
+{"version":3,"sources":["test.js"],"names":[],"mappings":";;AAAA,SAAS,CAAT,GAAa;AACX,SAAO;AAAA,WAAM,IAAN;AAAA,GAAP;AACD","file":"dest.js","sourcesContent":["function x() {\n  return () => true;\n}\n"]}
