@@ -4,7 +4,7 @@ namespace SourceMaps.StackTraces
     {
         public string File { get; set; }
         public string Method { get; set; }
-        public string Arguments { get; set; }
+        public string[] Arguments { get; set; }
         public int? LineNumber { get; set; }
         public int? ColumnNumber { get; set; }
 

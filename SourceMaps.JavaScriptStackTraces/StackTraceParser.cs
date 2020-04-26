@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 
 namespace SourceMaps.StackTraces
@@ -41,7 +42,8 @@ namespace SourceMaps.StackTraces
                 var success =
                     TryParseChrome(line, out frame) ||
                     TryParseWinJs(line, out frame) ||
-                    TryParseGecko(line, out frame);
+                    TryParseGecko(line, out frame) ||
+                    TryParseNode(line, out frame);
 
                 if (success)
                     result.Append(frame);
@@ -60,23 +62,22 @@ namespace SourceMaps.StackTraces
             if (!match.Success)
                 return false;
 
-            var isNative = match.Groups[2].Value?.IndexOf("native") == 0;
-            var isEval = match.Groups[2].Value?.IndexOf("eval") == 0;
+            var isNative = match.Groups[2].Value?.IndexOf("native", StringComparison.Ordinal) == 0;
+            var isEval = match.Groups[2].Value?.IndexOf("eval", StringComparison.Ordinal) == 0;
 
             frame = new StackFrame();
             frame.File = !isNative ? match.Groups[2].Value : null;
-            frame.Method = match.Groups[1]?.Value ?? "<unknown>";
-            frame.Arguments = match.Groups[2].Value;
-            frame.LineNumber = int.Parse(match.Groups[3].Value);
-            frame.ColumnNumber = int.Parse(match.Groups[4].Value);
+            frame.Method = !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : "<unknown>";
+            frame.Arguments = isNative ? new[] { match.Groups[2].Value } : Array.Empty<string>();
+            frame.LineNumber = !string.IsNullOrEmpty(match.Groups[3].Value) ? int.Parse(match.Groups[3].Value) : (int?)null;
+            frame.ColumnNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?) null;
 
             var submatch = ChromeEvalRe.Match(match.Groups[2].Value);
-            if (submatch.Success)
+            if (isEval && submatch.Success)
             {
                 frame.File = !isNative ? submatch.Groups[1].Value : null;
-                frame.Arguments = submatch.Groups[1].Value;
-                frame.LineNumber = int.Parse(submatch.Groups[2].Value);
-                frame.ColumnNumber = int.Parse(submatch.Groups[3].Value);
+                frame.LineNumber = !string.IsNullOrEmpty(submatch.Groups[2].Value) ? int.Parse(submatch.Groups[2].Value) : (int?)null;
+                frame.ColumnNumber = !string.IsNullOrEmpty(submatch.Groups[3].Value) ? int.Parse(submatch.Groups[3].Value) : (int?)null;
             }
 
             return true;
@@ -94,10 +95,10 @@ namespace SourceMaps.StackTraces
             frame = new StackFrame
             {
                 File = match.Groups[2].Value,
-                Method = match.Groups[1]?.Value ?? "<unknown>",
-                Arguments = "",
+                Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : "<unknown>",
+                Arguments = Array.Empty<string>(),
                 LineNumber = int.Parse(match.Groups[3].Value),
-                ColumnNumber = int.Parse(match.Groups[4].Value)
+                ColumnNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?)null,
             };
 
             return true;
@@ -113,15 +114,15 @@ namespace SourceMaps.StackTraces
             if (!match.Success)
                 return false;
 
-            var isEval = match.Groups[3].Value.IndexOf("> eval") > -1;
+            var isEval = match.Groups[3].Value.IndexOf("> eval", StringComparison.Ordinal) > -1;
 
             frame = new StackFrame
             {
                 File = match.Groups[3].Value,
-                Method = match.Groups[1]?.Value ?? "<unknown>",
-                Arguments = match.Groups[2]?.Value,
-                LineNumber = int.Parse(match.Groups[4].Value),
-                ColumnNumber = int.Parse(match.Groups[5].Value),
+                Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : "<unknown>",
+                Arguments = !string.IsNullOrEmpty(match.Groups[2].Value) ? match.Groups[2].Value.Split(',') : Array.Empty<string>(),
+                LineNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?)null,
+                ColumnNumber = !string.IsNullOrEmpty(match.Groups[5].Value) ? int.Parse(match.Groups[5].Value) : (int?)null,
             };
 
             var submatch = GeckoEvalRe.Match(line);
@@ -131,6 +132,25 @@ namespace SourceMaps.StackTraces
                 frame.LineNumber = int.Parse(submatch.Groups[2].Value);
                 frame.ColumnNumber = null;
             }
+
+            return true;
+        }
+
+        private static readonly Regex NodeRe = new Regex(@"^\s*at (?:((?:\[object object\])?[^\\/]+(?: \[as \S+\])?) )?\(?(.*?):(\d+)(?::(\d+))?\)?\s*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        internal static bool TryParseNode(string line, out StackFrame frame)
+        {
+            frame = null;
+
+            var match = NodeRe.Match(line);
+            if (!match.Success)
+                return false;
+
+            frame = new StackFrame();
+            frame.File = match.Groups[2].Value;
+            frame.Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : "<unknown>";
+            frame.Arguments = Array.Empty<string>();
+            frame.LineNumber = int.Parse(match.Groups[3].Value);
+            frame.ColumnNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?)null;
 
             return true;
         }
