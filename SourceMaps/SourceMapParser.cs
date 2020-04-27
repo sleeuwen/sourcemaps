@@ -12,7 +12,7 @@ namespace SourceMaps
         {
             var sourceMap = JsonSerializer.Deserialize<SourceMap>(sourceMapString);
             if (!string.IsNullOrEmpty(sourceMap.SourceRoot))
-                sourceMap.Sources = sourceMap.Sources.Select(source => Path.Join(sourceMap.SourceRoot, source)).ToList();
+                sourceMap.Sources = sourceMap.Sources.Select(source => Path.Combine(sourceMap.SourceRoot, source)).ToList();
             sourceMap.ParsedMappings = ParseMappings(sourceMap.Mappings, sourceMap.Names, sourceMap.Sources);
             return sourceMap;
         }
@@ -28,7 +28,7 @@ namespace SourceMaps
                 state.GeneratedLineNumber = lineNumber;
                 state.GeneratedColumnNumber = 0;
 
-                var segments = lines[lineNumber].Split(',', StringSplitOptions.RemoveEmptyEntries);
+                var segments = lines[lineNumber].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var segment in segments)
                 {
                     ApplyMappingSegment(Base64Vlq.Decode(segment), ref state);

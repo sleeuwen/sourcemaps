@@ -19,10 +19,7 @@ namespace SourceMaps
 
         public bool Equals(SourceMapMappingEntry other)
         {
-            return GeneratedSourcePosition.Equals(other.GeneratedSourcePosition) &&
-                   OriginalSourcePosition.Equals(other.OriginalSourcePosition) &&
-                   OriginalName == other.OriginalName &&
-                   OriginalFileName == other.OriginalFileName;
+            return GeneratedSourcePosition.Equals(other.GeneratedSourcePosition) && OriginalSourcePosition.Equals(other.OriginalSourcePosition) && OriginalName == other.OriginalName && OriginalFileName == other.OriginalFileName;
         }
 
         public override bool Equals(object obj)
@@ -32,7 +29,14 @@ namespace SourceMaps
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(GeneratedSourcePosition, OriginalSourcePosition, OriginalName, OriginalFileName);
+            unchecked
+            {
+                var hashCode = GeneratedSourcePosition.GetHashCode();
+                hashCode = (hashCode * 397) ^ OriginalSourcePosition.GetHashCode();
+                hashCode = (hashCode * 397) ^ (OriginalName != null ? OriginalName.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (OriginalFileName != null ? OriginalFileName.GetHashCode() : 0);
+                return hashCode;
+            }
         }
     }
 }

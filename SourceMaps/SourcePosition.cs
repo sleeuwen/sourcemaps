@@ -32,7 +32,10 @@ namespace SourceMaps
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(LineNumber, ColumnNumber);
+            unchecked
+            {
+                return (LineNumber * 397) ^ ColumnNumber;
+            }
         }
     }
 }

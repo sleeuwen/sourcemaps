@@ -12,7 +12,7 @@ namespace SourceMaps.StackTraces
 
         public override string ToString()
         {
-            return string.Join('\n', Frames.Select(frame => frame.ToString()));
+            return string.Join("\n", Frames.Select(frame => frame.ToString()));
         }
     }
 }
