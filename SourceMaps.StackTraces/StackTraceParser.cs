@@ -5,6 +5,13 @@ namespace SourceMaps.StackTraces
 {
     public static class StackTraceParser
     {
+        public static string ReTrace(SourceMap sourceMap, string stacktrace, string sourceRoot = null)
+        {
+            var collection = new SourceMapCollection();
+            collection.Register(sourceMap);
+            return ReTrace(collection, stacktrace, sourceRoot);
+        }
+
         public static string ReTrace(SourceMapCollection sourceMaps, string stacktrace, string sourceRoot = null)
         {
             var trace = Parse(stacktrace);
