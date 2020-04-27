@@ -17,6 +17,8 @@ namespace SourceMaps.StackTraces.Tests
                 "because parsed stackframes should be the same as actual stackframes");
             for (var i = 0; i < expected.Count; i++)
             {
+                if (expected[i] == null) continue;
+
                 actual[i].File.Should().Be(expected[i].File, "because parsed file should be the same as expected");
                 actual[i].Method.Should()
                     .Be(expected[i].Method, "because parsed method should be the same as expected");
@@ -893,7 +895,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     {
                         File = null,
                         Method = "Error",
-                        Arguments = Array.Empty<string>(),
+                        Arguments = new[] { "native" },
                         LineNumber = null,
                         ColumnNumber = null,
                     },
@@ -1120,6 +1122,8 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                         LineNumber = 5529,
                         ColumnNumber = 16,
                     },
+                    null,
+                    null,
                 },
             };
             yield return new object[]
@@ -1251,6 +1255,40 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                         LineNumber = 12,
                         ColumnNumber = 1917,
                     },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     new StackFrame
                     {
                         File = "index.android.bundle",
