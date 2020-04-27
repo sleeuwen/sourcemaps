@@ -33,8 +33,8 @@ namespace SourceMaps.StackTraces
 
                 frame.File = originalPosition?.OriginalFileName ?? frame.File;
                 frame.Method = originalPosition?.OriginalName ?? frame.Method;
-                frame.LineNumber = originalPosition?.OriginalSourcePosition.LineNumber ?? frame.LineNumber;
-                frame.ColumnNumber = originalPosition?.OriginalSourcePosition.ColumnNumber ?? frame.ColumnNumber;
+                frame.LineNumber = originalPosition?.OriginalLineNumber ?? frame.LineNumber;
+                frame.ColumnNumber = originalPosition?.OriginalColumnNumber ?? frame.ColumnNumber;
             }
 
             return trace.ToString();
@@ -113,8 +113,8 @@ namespace SourceMaps.StackTraces
             return true;
         }
 
-        private static readonly Regex GeckoRe = new Regex(@"^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex GeckoEvalRe = new Regex(@"(\S+) line (\d+)(?: > eval line \d+)* > eval", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex GeckoRe = new Regex(@"^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|\[native|/).*?|[^@]*bundle)(?::(\d+))?(?::(\d+))?\s*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex GeckoEvalRe = new Regex(@"(?:^\s*(?:.*?)(?:\((?:.*?)\))?@|^)(\S+) line (\d+)(?: > eval line \d+)* > eval", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         internal static bool TryParseGecko(string line, out StackFrame frame)
         {
             frame = null;

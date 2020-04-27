@@ -94,8 +94,10 @@ namespace SourceMaps
 
         public SourceMapMappingEntry GetCurrentSourceMapMappingEntry(List<string> names, List<string> sources)
             => new SourceMapMappingEntry(
-                new SourcePosition(GeneratedLineNumber + 1, GeneratedColumnNumber + 1), // Add 1 to line/column numbers as they are zero-based in source maps
-                new SourcePosition((OriginalSourceStartingLineNumber ?? -1) + 1, (OriginalSourceStartingColumnNumber ?? -1) + 1),
+                GeneratedLineNumber + 1,
+                GeneratedColumnNumber + 1,
+                OriginalSourceStartingLineNumber.HasValue ? OriginalSourceStartingLineNumber.Value + 1 : (int?)null,
+                OriginalSourceStartingColumnNumber.HasValue ? OriginalSourceStartingColumnNumber.Value + 1 : (int?)null,
                 NamesListIndex.HasValue ? names[NamesListIndex.Value] : null,
                 SourcesListIndex.HasValue ? sources[SourcesListIndex.Value] : null);
     }

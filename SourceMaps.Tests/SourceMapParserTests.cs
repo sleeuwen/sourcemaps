@@ -107,9 +107,9 @@ namespace SourceMaps.Tests
             {
                 ParsedMappings = new List<SourceMapMappingEntry>
                 {
-                    new SourceMapMappingEntry(new SourcePosition(1, 1), new SourcePosition(1, 1), null, "bar.js"),
-                    new SourceMapMappingEntry(new SourcePosition(2, 2), new SourcePosition(2, 2), null, "bar.js"),
-                    new SourceMapMappingEntry(new SourcePosition(1, 1), new SourcePosition(1, 1), null, "baz.js"),
+                    new SourceMapMappingEntry(1, 1, 1, 1, null, "bar.js"),
+                    new SourceMapMappingEntry(2, 2, 2, 2, null, "bar.js"),
+                    new SourceMapMappingEntry(1, 1, 1, 1, null, "baz.js"),
                 }
             };
 
@@ -133,15 +133,15 @@ namespace SourceMaps.Tests
             {
                 ParsedMappings = new List<SourceMapMappingEntry>
                 {
-                    new SourceMapMappingEntry(new SourcePosition(2, 2), new SourcePosition(1, 1), null,
+                    new SourceMapMappingEntry(2, 2, 1, 1, null,
                         "foo/bar/bang.coffee"),
                 }
             };
 
             var pos = map.OriginalPositionFor(2, 2).Value;
             Assert.Equal("foo/bar/bang.coffee", pos.OriginalFileName);
-            Assert.Equal(1, pos.OriginalSourcePosition.LineNumber);
-            Assert.Equal(1, pos.OriginalSourcePosition.ColumnNumber);
+            Assert.Equal(1, pos.OriginalLineNumber);
+            Assert.Equal(1, pos.OriginalColumnNumber);
         }
 
         [Theory]

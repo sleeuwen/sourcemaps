@@ -34,16 +34,20 @@ namespace SourceMaps
             if (ParsedMappings == null)
                 return null;
 
-            var generatedSourcePosition = new SourcePosition(generatedLineNumber, generatedColumnNumber);
-
             var index = ParsedMappings.BinarySearch(
-                new SourceMapMappingEntry(generatedSourcePosition, default, null, null),
-                Comparer<SourceMapMappingEntry>.Create((a, b) => a.GeneratedSourcePosition.CompareTo(b.GeneratedSourcePosition)));
+                new SourceMapMappingEntry(generatedLineNumber, generatedColumnNumber, null, null, null, null),
+                Comparer<SourceMapMappingEntry>.Create((a, b) =>
+                {
+                    var lineNumberComparison = a.GeneratedLineNumber.CompareTo(b.GeneratedLineNumber);
+                    if (lineNumberComparison != 0) return lineNumberComparison;
+                    return a.GeneratedColumnNumber.CompareTo(b.GeneratedColumnNumber);
+                }));
 
             if (index < 0)
             {
                 if (~index - 1 >= 0 &&
-                    ParsedMappings[~index - 1].GeneratedSourcePosition.Equals(generatedSourcePosition))
+                    ParsedMappings[~index - 1].GeneratedLineNumber == generatedLineNumber &&
+                    ParsedMappings[~index - 1].GeneratedColumnNumber == generatedColumnNumber)
                 {
                     index = ~index - 1;
                 }

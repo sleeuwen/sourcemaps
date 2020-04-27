@@ -153,10 +153,11 @@ namespace SourceMaps.Tests
             string name,
             SourceMap map)
         {
-            var mapping = map.OriginalPositionFor(generatedLine, generatedColumn).Value;
-            Assert.Equal(name, mapping.OriginalName);
-            Assert.Equal(originalLine ?? 0, mapping.OriginalSourcePosition.LineNumber);
-            Assert.Equal(originalColumn ?? 0, mapping.OriginalSourcePosition.ColumnNumber);
+            var mapping = map.OriginalPositionFor(generatedLine, generatedColumn);
+            Assert.NotNull(mapping);
+            Assert.Equal(name, mapping?.OriginalName);
+            Assert.Equal(originalLine ?? 0, mapping?.OriginalLineNumber);
+            Assert.Equal(originalColumn ?? 0, mapping?.OriginalColumnNumber);
 
             var expectedSource = (originalSource, map.SourceRoot) switch
             {
@@ -166,7 +167,7 @@ namespace SourceMaps.Tests
                 _ => null,
             };
 
-            Assert.Equal(expectedSource, mapping.OriginalFileName);
+            Assert.Equal(expectedSource, mapping?.OriginalFileName);
         }
 
         public static void AssertEqualMaps(SourceMap expected, SourceMap actual)

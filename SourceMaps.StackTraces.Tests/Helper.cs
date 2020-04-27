@@ -115,7 +115,7 @@ namespace SourceMaps.StackTraces.Tests
                 "bar(1)@http://127.0.0.1:8000/js/file.js:13\n" +
                 "bar(2)@http://127.0.0.1:8000/js/file.js:16\n" +
                 "foo()@http://127.0.0.1:8000/js/file.js:20\n" +
-                "@http://127.0.0.1:8000/js/file.js:24\n",
+                "@http://127.0.0.1:8000/js/file.js:24",
         };
 
         public static readonly JavaScriptError Firefox7 = new JavaScriptError
@@ -129,7 +129,7 @@ namespace SourceMaps.StackTraces.Tests
                 "bar(1)@file:///G:/js/file.js:13\n" +
                 "bar(2)@file:///G:/js/file.js:16\n" +
                 "foo()@file:///G:/js/file.js:20\n" +
-                "@file:///G:/js/file.js:24\n",
+                "@file:///G:/js/file.js:24",
         };
 
         public static readonly JavaScriptError Firefox14 = new JavaScriptError
@@ -138,7 +138,7 @@ namespace SourceMaps.StackTraces.Tests
             Stack =
                 "@http://path/to/file.js:48\n" +
                 "dumpException3@http://path/to/file.js:52\n" +
-                "onclick@http://path/to/file.js:1\n",
+                "onclick@http://path/to/file.js:1",
             FileName = "http://path/to/file.js",
             LineNumber = 48,
         };
@@ -150,7 +150,7 @@ namespace SourceMaps.StackTraces.Tests
             Stack =
                 "foo@http://path/to/file.js:41:13\n" +
                 "bar@http://path/to/file.js:1:1\n" +
-                ".plugin/e.fn[c]/<@http://path/to/file.js:1:1\n",
+                ".plugin/e.fn[c]/<@http://path/to/file.js:1:1",
             FileName = "http://path/to/file.js",
             LineNumber = 41,
             ColumnNumber = 12,
@@ -182,7 +182,7 @@ namespace SourceMaps.StackTraces.Tests
                 "[2]</Bar.prototype._baz/</<@http://path/to/file.js:703:28\n" +
                 "App.prototype.foo@file:///path/to/file.js:15:2\n" +
                 "bar@file:///path/to/file.js:20:3\n" +
-                "@file:///path/to/index.html:23:1\n", // inside <script> tag
+                "@file:///path/to/index.html:23:1", // inside <script> tag
             FileName = "http://path/to/file.js",
             ColumnNumber = 0,
             LineNumber = 703,
@@ -317,7 +317,7 @@ namespace SourceMaps.StackTraces.Tests
                 "at foo (eval at speak (http://localhost:8080/file.js:21:17), <anonymous>:2:96)\n" +
                 "at eval (eval at speak (http://localhost:8080/file.js:21:17), <anonymous>:4:18)\n" +
                 "at Object.speak (http://localhost:8080/file.js:21:17)\n" +
-                "at http://localhost:8080/file.js:31:13\n",
+                "at http://localhost:8080/file.js:31:13",
         };
 
         public static readonly JavaScriptError Phantomjs119 = new JavaScriptError
@@ -342,7 +342,7 @@ namespace SourceMaps.StackTraces.Tests
                 "at _currentElement(/home/username/sample-workspace/sampleapp.collect.react/node_modules/react-native/Libraries/Renderer/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js:346:40)\n" +
                 "at child(/home/username/sample-workspace/sampleapp.collect.react/node_modules/react-native/Libraries/Renderer/src/renderers/shared/stack/reconciler/ReactReconciler.js:68:25)\n" +
                 "at children(/home/username/sample-workspace/sampleapp.collect.react/node_modules/react-native/Libraries/Renderer/src/renderers/shared/stack/reconciler/ReactMultiChild.js:264:10)\n" +
-                "at this(/home/username/sample-workspace/sampleapp.collect.react/node_modules/react-native/Libraries/Renderer/src/renderers/native/ReactNativeBaseComponent.js:74:41)\n",
+                "at this(/home/username/sample-workspace/sampleapp.collect.react/node_modules/react-native/Libraries/Renderer/src/renderers/native/ReactNativeBaseComponent.js:74:41)",
         };
 
         public static readonly JavaScriptError AndroidReactNativeProd = new JavaScriptError
@@ -396,8 +396,7 @@ namespace SourceMaps.StackTraces.Tests
             _exampleFunction@/home/test/project/App.js:125:13
             _depRunCallbacks@/home/test/project/node_modules/dep/index.js:77:45
             tryCallTwo@/home/test/project/node_modules/react-native/node_modules/promise/lib/core.js:45:5
-            doResolve@/home/test/project/node_modules/react-native/node_modules/promise/lib/core.js:200:13
-            ",
+            doResolve@/home/test/project/node_modules/react-native/node_modules/promise/lib/core.js:200:13",
         };
 
         public static readonly JavaScriptError IosReactNative2 = new JavaScriptError
