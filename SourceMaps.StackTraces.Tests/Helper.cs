@@ -1,4 +1,4 @@
-namespace SourceMaps.JavaScriptStackTraces.Tests
+namespace SourceMaps.StackTraces.Tests
 {
     internal static class Helper
     {

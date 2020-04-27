@@ -11,14 +11,20 @@ namespace SourceMaps
             _sourceMaps.Add(sourceMap.File, sourceMap);
         }
 
-        public void Register(string filepath, SourceMap sourceMap)
+        public void Register(string name, SourceMap sourceMap)
         {
-            _sourceMaps.Add(filepath, sourceMap);
+            _sourceMaps.Add(name, sourceMap);
         }
 
-        public void ParseAndRegister(string filepath, string sourceMapContent)
+        public void ParseAndRegister(string sourceMapContent)
         {
-            _sourceMaps.Add(filepath, SourceMapParser.Parse(sourceMapContent));
+            var sourceMap = SourceMapParser.Parse(sourceMapContent);
+            _sourceMaps.Add(sourceMap.File, sourceMap);
+        }
+
+        public void ParseAndRegister(string name, string sourceMapContent)
+        {
+            _sourceMaps.Add(name, SourceMapParser.Parse(sourceMapContent));
         }
 
         public SourceMap GetSourceMapFor(string filename)

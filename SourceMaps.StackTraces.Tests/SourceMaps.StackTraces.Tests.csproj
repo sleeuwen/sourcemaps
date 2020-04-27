@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
@@ -15,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SourceMaps.JavaScriptStackTraces\SourceMaps.JavaScriptStackTraces.csproj" />
+      <ProjectReference Include="..\SourceMaps.StackTraces\SourceMaps.StackTraces.csproj" />
     </ItemGroup>
 
 </Project>

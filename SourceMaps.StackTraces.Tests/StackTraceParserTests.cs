@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using SourceMaps.StackTraces;
 using Xunit;
 
-namespace SourceMaps.JavaScriptStackTraces.Tests
+namespace SourceMaps.StackTraces.Tests
 {
     public class StackTraceParserTests
     {

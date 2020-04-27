@@ -9,23 +9,25 @@ namespace SourceMaps.StackTraces
         {
             var trace = Parse(stacktrace);
 
-            for (var i = 0; i < trace.Frames.Count; i++)
+            foreach (var frame in trace.Frames)
             {
-                var frame = trace.Frames[i];
-
-                frame.File = frame.File.Replace(sourceRoot, "");
+                if (!string.IsNullOrEmpty(sourceRoot))
+                    frame.File = frame.File.Replace(sourceRoot, "");
 
                 var sourceMap = sourceMaps.GetSourceMapFor(frame.File)
                                 ?? sourceMaps.GetSourceMapFor(frame.File.Substring(0, frame.File.IndexOf('?')));
+
+                if (frame.LineNumber == null || frame.ColumnNumber == null)
+                    continue;
 
                 var originalPosition = sourceMap?.OriginalPositionFor(new SourcePosition(frame.LineNumber.Value - 1, frame.ColumnNumber.Value - 1));
                 if (originalPosition == null)
                     continue;
 
-                frame.File = originalPosition?.OriginalFileName;
-                frame.Method = originalPosition?.OriginalName;
-                frame.LineNumber = originalPosition?.OriginalSourcePosition.LineNumber;
-                frame.ColumnNumber = originalPosition?.OriginalSourcePosition.ColumnNumber;
+                frame.File = originalPosition?.OriginalFileName ?? frame.File;
+                frame.Method = originalPosition?.OriginalName ?? frame.Method;
+                frame.LineNumber = originalPosition?.OriginalSourcePosition.LineNumber ?? frame.LineNumber;
+                frame.ColumnNumber = originalPosition?.OriginalSourcePosition.ColumnNumber ?? frame.ColumnNumber;
             }
 
             return trace.ToString();
