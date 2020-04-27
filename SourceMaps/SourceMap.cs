@@ -29,10 +29,12 @@ namespace SourceMaps
         [JsonIgnore]
         public List<SourceMapMappingEntry> ParsedMappings { get; set; }
 
-        public SourceMapMappingEntry? OriginalPositionFor(SourcePosition generatedSourcePosition)
+        public SourceMapMappingEntry? OriginalPositionFor(int generatedLineNumber, int generatedColumnNumber)
         {
             if (ParsedMappings == null)
                 return null;
+
+            var generatedSourcePosition = new SourcePosition(generatedLineNumber, generatedColumnNumber);
 
             var index = ParsedMappings.BinarySearch(
                 new SourceMapMappingEntry(generatedSourcePosition, default, null, null),

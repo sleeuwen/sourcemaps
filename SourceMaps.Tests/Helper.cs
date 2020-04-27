@@ -153,7 +153,7 @@ namespace SourceMaps.Tests
             string name,
             SourceMap map)
         {
-            var mapping = map.OriginalPositionFor(new SourcePosition(generatedLine, generatedColumn)).Value;
+            var mapping = map.OriginalPositionFor(generatedLine, generatedColumn).Value;
             Assert.Equal(name, mapping.OriginalName);
             Assert.Equal(originalLine ?? 0, mapping.OriginalSourcePosition.LineNumber);
             Assert.Equal(originalColumn ?? 0, mapping.OriginalSourcePosition.ColumnNumber);
