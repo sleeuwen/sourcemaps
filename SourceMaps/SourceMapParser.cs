@@ -11,9 +11,13 @@ namespace SourceMaps
         public static SourceMap Parse(string sourceMapString)
         {
             var sourceMap = JsonSerializer.Deserialize<SourceMap>(sourceMapString);
+            if (sourceMap.Version != 3)
+                throw new ArgumentException($"Unknown source map version: {sourceMap.Version}");
+
             if (!string.IsNullOrEmpty(sourceMap.SourceRoot))
                 sourceMap.Sources = sourceMap.Sources.Select(source => Path.Combine(sourceMap.SourceRoot, source)).ToList();
-            sourceMap.ParsedMappings = ParseMappings(sourceMap.Mappings, sourceMap.Names, sourceMap.Sources);
+
+            sourceMap.Mappings = ParseMappings(sourceMap.MappingsString, sourceMap.Names, sourceMap.Sources);
             return sourceMap;
         }
 
@@ -41,23 +45,18 @@ namespace SourceMaps
 
         internal static void ApplyMappingSegment(List<int> segmentFields, ref MappingParserState state)
         {
-            if (segmentFields == null)
-            {
-                throw new ArgumentNullException(nameof(segmentFields));
-            }
+            _ = segmentFields ?? throw new ArgumentNullException(nameof(segmentFields));
 
-            if (segmentFields.Count == 0 || segmentFields.Count == 2 || segmentFields.Count == 3)
-            {
-                throw new ArgumentOutOfRangeException(nameof(segmentFields));
-            }
+            if (segmentFields.Count != 1 && segmentFields.Count != 4 && segmentFields.Count != 5)
+                throw new ArgumentOutOfRangeException(nameof(segmentFields), $"Expected 1, 4 or 5 fields, got {segmentFields.Count}");
 
             state.GeneratedColumnNumber += segmentFields[0];
 
             if (segmentFields.Count > 1)
             {
                 state.SourcesListIndex = (state.SourcesListIndex ?? 0) + segmentFields[1];
-                state.OriginalSourceStartingLineNumber = (state.OriginalSourceStartingLineNumber ?? 0) + segmentFields[2];
-                state.OriginalSourceStartingColumnNumber = (state.OriginalSourceStartingColumnNumber ?? 0) + segmentFields[3];
+                state.OriginalLineNumber = (state.OriginalLineNumber ?? 0) + segmentFields[2];
+                state.OriginalColumnNumber = (state.OriginalColumnNumber ?? 0) + segmentFields[3];
             }
 
             if (segmentFields.Count >= 5)
@@ -72,32 +71,32 @@ namespace SourceMaps
         public int GeneratedLineNumber;
         public int GeneratedColumnNumber;
         public int? SourcesListIndex;
-        public int? OriginalSourceStartingLineNumber;
-        public int? OriginalSourceStartingColumnNumber;
+        public int? OriginalLineNumber;
+        public int? OriginalColumnNumber;
         public int? NamesListIndex;
 
         public MappingParserState(
             int generatedLineNumber,
             int generatedColumnNumber,
             int sourcesListIndex,
-            int originalSourceStartingLineNumber,
-            int originalSourceStartingColumnNumber,
+            int originalLineNumber,
+            int originalColumnNumber,
             int namesListIndex)
         {
             this.GeneratedLineNumber = generatedLineNumber;
             this.GeneratedColumnNumber = generatedColumnNumber;
+            this.OriginalLineNumber = originalLineNumber;
+            this.OriginalColumnNumber = originalColumnNumber;
             this.SourcesListIndex = sourcesListIndex;
-            this.OriginalSourceStartingLineNumber = originalSourceStartingLineNumber;
-            this.OriginalSourceStartingColumnNumber = originalSourceStartingColumnNumber;
             this.NamesListIndex = namesListIndex;
         }
 
         public SourceMapMappingEntry GetCurrentSourceMapMappingEntry(List<string> names, List<string> sources)
             => new SourceMapMappingEntry(
-                GeneratedLineNumber + 1,
-                GeneratedColumnNumber + 1,
-                OriginalSourceStartingLineNumber.HasValue ? OriginalSourceStartingLineNumber.Value + 1 : (int?)null,
-                OriginalSourceStartingColumnNumber.HasValue ? OriginalSourceStartingColumnNumber.Value + 1 : (int?)null,
+                GeneratedLineNumber,
+                GeneratedColumnNumber,
+                OriginalLineNumber,
+                OriginalColumnNumber,
                 NamesListIndex.HasValue ? names[NamesListIndex.Value] : null,
                 SourcesListIndex.HasValue ? sources[SourcesListIndex.Value] : null);
     }

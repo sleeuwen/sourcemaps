@@ -19,8 +19,8 @@ namespace SourceMaps.Tests
             Assert.Equal(1, state.GeneratedLineNumber);
             Assert.Equal(6, state.GeneratedColumnNumber);
             Assert.Equal(3, state.SourcesListIndex);
-            Assert.Equal(4, state.OriginalSourceStartingLineNumber);
-            Assert.Equal(5, state.OriginalSourceStartingColumnNumber);
+            Assert.Equal(4, state.OriginalLineNumber);
+            Assert.Equal(5, state.OriginalColumnNumber);
             Assert.Equal(6, state.NamesListIndex);
 
             segmentFields = new List<int> { 1, 5, 4, 3 };
@@ -29,8 +29,8 @@ namespace SourceMaps.Tests
             Assert.Equal(1, state.GeneratedLineNumber);
             Assert.Equal(7, state.GeneratedColumnNumber);
             Assert.Equal(8, state.SourcesListIndex);
-            Assert.Equal(8, state.OriginalSourceStartingLineNumber);
-            Assert.Equal(8, state.OriginalSourceStartingColumnNumber);
+            Assert.Equal(8, state.OriginalLineNumber);
+            Assert.Equal(8, state.OriginalColumnNumber);
             Assert.Equal(6, state.NamesListIndex);
 
             segmentFields = new List<int> { 1, 1, 1, 1, 3 };
@@ -39,15 +39,15 @@ namespace SourceMaps.Tests
             Assert.Equal(1, state.GeneratedLineNumber);
             Assert.Equal(8, state.GeneratedColumnNumber);
             Assert.Equal(9, state.SourcesListIndex);
-            Assert.Equal(9, state.OriginalSourceStartingLineNumber);
-            Assert.Equal(9, state.OriginalSourceStartingColumnNumber);
+            Assert.Equal(9, state.OriginalLineNumber);
+            Assert.Equal(9, state.OriginalColumnNumber);
             Assert.Equal(9, state.NamesListIndex);
         }
 
         [Fact]
         public void ParseMappings_CorrectlyParsesSingleMapping()
         {
-            var result = SourceMapParser.ParseMappings(Helper.TestMapWithSourcesContent.Mappings, Helper.TestMapWithSourcesContent.Names, Helper.TestMapWithSourcesContent.Sources);
+            var result = SourceMapParser.ParseMappings(Helper.TestMapWithSourcesContent.MappingsString, Helper.TestMapWithSourcesContent.Names, Helper.TestMapWithSourcesContent.Sources);
 
             Assert.Equal(13, result.Count);
         }
@@ -105,7 +105,7 @@ namespace SourceMaps.Tests
         {
             var map = new SourceMap
             {
-                ParsedMappings = new List<SourceMapMappingEntry>
+                Mappings = new List<SourceMapMappingEntry>
                 {
                     new SourceMapMappingEntry(1, 1, 1, 1, null, "bar.js"),
                     new SourceMapMappingEntry(2, 2, 2, 2, null, "bar.js"),
@@ -131,7 +131,7 @@ namespace SourceMaps.Tests
         {
             var map = new SourceMap
             {
-                ParsedMappings = new List<SourceMapMappingEntry>
+                Mappings = new List<SourceMapMappingEntry>
                 {
                     new SourceMapMappingEntry(2, 2, 1, 1, null,
                         "foo/bar/bang.coffee"),
@@ -145,6 +145,7 @@ namespace SourceMaps.Tests
         }
 
         [Theory]
+        [InlineData("files/atlassian.sourcemap")]
         [InlineData("files/babel.sourcemap")]
         [InlineData("files/sass.sourcemap")]
         public void Parse_CanParseGeneratedSourcemaps(string path)

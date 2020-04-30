@@ -16,7 +16,7 @@ namespace SourceMaps.Tests
             Names = new List<string> { "bar", "baz", "n" },
             Sources = new List<string> { "one.js", "two.js" },
             SourceRoot = "/the/root",
-            Mappings = "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID;CCDb,IAAI,IAAM,SAAUE,GAClB,OAAOA",
+            MappingsString = "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID;CCDb,IAAI,IAAM,SAAUE,GAClB,OAAOA",
         };
 
         public static readonly SourceMap TestMapNoSourceRoot = new SourceMap
@@ -25,7 +25,7 @@ namespace SourceMaps.Tests
             File = "min.js",
             Names = new List<string> { "bar", "baz", "n" },
             Sources = new List<string> { "one.js", "two.js" },
-            Mappings =
+            MappingsString =
                 "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID;CCDb,IAAI,IAAM,SAAUE,GAClB,OAAOA"
         };
 
@@ -36,7 +36,7 @@ namespace SourceMaps.Tests
             Names = new List<string> { "bar", "baz", "n" },
             Sources = new List<string> { "one.js", "two.js" },
             SourceRoot = "",
-            Mappings =
+            MappingsString =
                 "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID;CCDb,IAAI,IAAM,SAAUE,GAClB,OAAOA"
         };
 
@@ -47,7 +47,7 @@ namespace SourceMaps.Tests
             Names = new List<string> { "bar", "baz" },
             Sources = new List<string> { "one.js" },
             SourceRoot = "",
-            Mappings = "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID"
+            MappingsString = "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID"
         };
 
         public static readonly SourceMap TestMapEmptyMappings = new SourceMap
@@ -58,7 +58,7 @@ namespace SourceMaps.Tests
             Sources = new List<string> { "one.js", "two.js" },
             SourcesContent = new List<string> { " ONE.foo = 1;", " TWO.inc = 2;" },
             SourceRoot = "",
-            Mappings = ""
+            MappingsString = ""
         };
 
         public static readonly SourceMap TestMapEmptyMappingsRelativeSources = new SourceMap
@@ -69,7 +69,7 @@ namespace SourceMaps.Tests
             Sources = new List<string> { "./one.js", "./two.js" },
             SourcesContent = new List<string> { " ONE.foo = 1;", " TWO.inc = 2;" },
             SourceRoot = "/the/root",
-            Mappings = ""
+            MappingsString = ""
         };
 
         public static readonly SourceMap TestMapEmptyMappingsRelativeSources_generatedExpected = new SourceMap
@@ -80,7 +80,7 @@ namespace SourceMaps.Tests
             Sources = new List<string> { "one.js", "two.js" },
             SourcesContent = new List<string> { " ONE.foo = 1;", " TWO.inc = 2;" },
             SourceRoot = "/the/root",
-            Mappings = ""
+            MappingsString = ""
         };
 
         public static readonly SourceMap TestMapMultiSourcesMappingRefersSingleSourceOnly = new SourceMap
@@ -90,9 +90,8 @@ namespace SourceMaps.Tests
             Names = new List<string> { "bar", "baz" },
             Sources = new List<string> { "one.js", "withoutMappings.js" },
             SourceRoot = "",
-            Mappings = "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID"
+            MappingsString = "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID"
         };
-
 
         public static readonly SourceMap TestMapWithSourcesContent = new SourceMap
         {
@@ -106,7 +105,7 @@ namespace SourceMaps.Tests
                 " TWO.inc = function (n) {\n   return n + 1;\n };"
             },
             SourceRoot = "/the/root",
-            Mappings =
+            MappingsString =
                 "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID;CCDb,IAAI,IAAM,SAAUE,GAClB,OAAOA"
         };
 
@@ -122,7 +121,7 @@ namespace SourceMaps.Tests
                 " TWO.inc = function (n) {\n   return n + 1;\n };"
             },
             SourceRoot = "/the/root",
-            Mappings =
+            MappingsString =
                 "CAAC,IAAI,IAAM,SAAUA,GAClB,OAAOC,IAAID;CCDb,IAAI,IAAM,SAAUE,GAClB,OAAOA"
         };
 
@@ -132,7 +131,7 @@ namespace SourceMaps.Tests
             File = "min.js",
             Names = new List<string> { },
             Sources = new List<string> { },
-            Mappings = ""
+            MappingsString = ""
         };
 
         public static readonly SourceMap MapWithSourcelessMapping = new SourceMap
@@ -141,7 +140,7 @@ namespace SourceMaps.Tests
             File = "example.js",
             Names = new List<string> { },
             Sources = new List<string> { "example.js" },
-            Mappings = "AAgCA,C"
+            MappingsString = "AAgCA,C"
         };
 
         public static void AssertMapping(
@@ -189,7 +188,7 @@ namespace SourceMaps.Tests
             }
 
             Assert.Equal(expected.SourceRoot, actual.SourceRoot);
-            Assert.Equal(expected.Mappings, actual.Mappings);
+            Assert.Equal(expected.MappingsString, actual.MappingsString);
 
             if (expected.SourcesContent != null)
             {

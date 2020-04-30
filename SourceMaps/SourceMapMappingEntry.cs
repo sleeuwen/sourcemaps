@@ -2,15 +2,8 @@ using System;
 
 namespace SourceMaps
 {
-    public struct SourceMapMappingEntry : IEquatable<SourceMapMappingEntry>
+    public readonly struct SourceMapMappingEntry : IEquatable<SourceMapMappingEntry>
     {
-        public readonly int GeneratedLineNumber;
-        public readonly int GeneratedColumnNumber;
-        public readonly int? OriginalLineNumber;
-        public readonly int? OriginalColumnNumber;
-        public readonly string OriginalName;
-        public readonly string OriginalFileName;
-
         public SourceMapMappingEntry(int generatedLineNumber, int generatedColumnNumber, int? originalLineNumber, int? originalColumnNumber, string originalName, string originalFileName)
         {
             this.GeneratedLineNumber = generatedLineNumber;
@@ -20,6 +13,19 @@ namespace SourceMaps
             this.OriginalName = originalName;
             this.OriginalFileName = originalFileName;
         }
+
+        public int GeneratedLineNumber { get; }
+        public int GeneratedColumnNumber { get; }
+        public int? OriginalLineNumber { get; }
+        public int? OriginalColumnNumber { get; }
+        public string OriginalName { get; }
+        public string OriginalFileName { get; }
+
+        public static bool operator ==(SourceMapMappingEntry left, SourceMapMappingEntry right)
+            => Equals(left, right);
+
+        public static bool operator !=(SourceMapMappingEntry left, SourceMapMappingEntry right)
+            => !Equals(left, right);
 
         public bool Equals(SourceMapMappingEntry other)
         {

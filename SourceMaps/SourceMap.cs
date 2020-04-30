@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace SourceMaps
 {
-    public class SourceMap
+    public sealed class SourceMap
     {
         [JsonPropertyName("version")]
         public int Version { get; set; }
@@ -24,17 +24,24 @@ namespace SourceMaps
         public List<string> Names { get; set; }
 
         [JsonPropertyName("mappings")]
-        public string Mappings { get; set; }
+        public string MappingsString { get; set; }
 
         [JsonIgnore]
-        public List<SourceMapMappingEntry> ParsedMappings { get; set; }
+        public List<SourceMapMappingEntry> Mappings { get; set; }
 
+        /// <summary>
+        /// Returns the original source, line and column information for the generated
+        /// source's line and column positions provided.
+        /// </summary>
+        /// <param name="generatedLineNumber">The line number in the generated source, 1-based.</param>
+        /// <param name="generatedColumnNumber">The column number in the generated source, 0-based</param>
+        /// <returns>A struct with the original mappings, or null if no mapping exit for the given line and column number.</returns>
         public SourceMapMappingEntry? OriginalPositionFor(int generatedLineNumber, int generatedColumnNumber)
         {
-            if (ParsedMappings == null)
+            if (Mappings == null)
                 return null;
 
-            var index = ParsedMappings.BinarySearch(
+            var index = Mappings.BinarySearch(
                 new SourceMapMappingEntry(generatedLineNumber, generatedColumnNumber, null, null, null, null),
                 Comparer<SourceMapMappingEntry>.Create((a, b) =>
                 {
@@ -46,14 +53,14 @@ namespace SourceMaps
             if (index < 0)
             {
                 if (~index - 1 >= 0 &&
-                    ParsedMappings[~index - 1].GeneratedLineNumber == generatedLineNumber &&
-                    ParsedMappings[~index - 1].GeneratedColumnNumber == generatedColumnNumber)
+                    Mappings[~index - 1].GeneratedLineNumber == generatedLineNumber &&
+                    Mappings[~index - 1].GeneratedColumnNumber == generatedColumnNumber)
                 {
                     index = ~index - 1;
                 }
             }
 
-            return index >= 0 ? ParsedMappings[index] : (SourceMapMappingEntry?)null;
+            return index >= 0 ? Mappings[index] : (SourceMapMappingEntry?)null;
         }
     }
 }
