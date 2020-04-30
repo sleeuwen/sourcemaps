@@ -9,7 +9,7 @@ namespace SourceMaps.StackTraces.Tests
     public class StackTraceParserTests
     {
         [Theory]
-        [MemberData(nameof(SingleLineStackTraceData))]
+        [MemberData(nameof(StackTraceData))]
         public void ParseTests(string stacktrace, List<StackFrame> expected)
         {
             var actual = StackTraceParser.Parse(stacktrace).Frames;
@@ -29,34 +29,6 @@ namespace SourceMaps.StackTraces.Tests
                     "because parsed line number should be the same as expected");
                 actual[i].ColumnNumber.Should().Be(expected[i].ColumnNumber,
                     "because parsed column number should be the same as expected");
-            }
-        }
-
-        public static IEnumerable<object[]> SingleLineStackTraceData()
-        {
-            foreach (var data in StackTraceData())
-            {
-                var stacktrace = (string) data[0];
-                var expected = (List<StackFrame>) data[1];
-
-                var lines = stacktrace.Split('\n');
-                if (expected.Count != lines.Length && expected.Count != lines.Length - 1)
-                    throw new Exception($"Invalid number of stack frames: {stacktrace}");
-
-                var offset = 0;
-                if (expected.Count == lines.Length - 1)
-                    offset = 1;
-
-                for (var i = 0; i+offset < lines.Length; i++)
-                {
-                    var line = lines[i + offset];
-                    var frame = expected[i];
-
-                    if (string.IsNullOrWhiteSpace(line))
-                        throw new Exception($"Invalid stack trace line:{i+offset}\n{stacktrace}");
-
-                    yield return new object[] {line.Trim(), new List<StackFrame> {frame}};
-                }
             }
         }
 
@@ -139,7 +111,6 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                         LineNumber = 43,
                         ColumnNumber = 36,
                     },
-                    null,
                     new StackFrame
                     {
                         File = "C:\\\\project files\\\\spect\\\\src\\\\index.js",
@@ -1379,11 +1350,6 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     {
                         File = "C:\\\\projects\\\\spect\\\\src\\\\index.js", Method = "Object.get",
                         Arguments = Array.Empty<string>(), LineNumber = 43, ColumnNumber = 36
-                    },
-                    new StackFrame
-                    {
-                        File = null, Method = "<anonymous>",
-                        Arguments = Array.Empty<string>(), LineNumber = null, ColumnNumber = null
                     },
                     new StackFrame
                     {

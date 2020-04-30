@@ -52,7 +52,8 @@ namespace SourceMaps.StackTraces
                     TryParseChrome(line, out frame) ||
                     TryParseWinJs(line, out frame) ||
                     TryParseGecko(line, out frame) ||
-                    TryParseNode(line, out frame);
+                    TryParseNode(line, out frame) ||
+                    TryParseJsc(line, out frame);
 
                 if (success)
                     result.Append(frame);
@@ -160,6 +161,26 @@ namespace SourceMaps.StackTraces
             frame.Arguments = Array.Empty<string>();
             frame.LineNumber = int.Parse(match.Groups[3].Value);
             frame.ColumnNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?)null;
+
+            return true;
+        }
+
+        private static readonly Regex JscRe = new Regex(@"^\s*(?:([^@]*)(?:\((.*?)\))?@)?(\S.*?):(\d+)(?::(\d+))?\s*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        internal static bool TryParseJsc(string line, out StackFrame frame)
+        {
+            frame = null;
+
+            var match = JscRe.Match(line);
+            if (!match.Success)
+                return false;
+
+            frame = new StackFrame();
+            frame.File = match.Groups[3].Value;
+            frame.Method = !string.IsNullOrEmpty(match.Groups[1].Value) ? match.Groups[1].Value : "<unknown>";
+            frame.Arguments = Array.Empty<string>();
+            frame.LineNumber = int.Parse(match.Groups[4].Value);
+            frame.ColumnNumber = !string.IsNullOrEmpty(match.Groups[5].Value) ? int.Parse(match.Groups[5].Value) : (int?)null;
 
             return true;
         }
