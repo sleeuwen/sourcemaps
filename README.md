@@ -13,20 +13,19 @@ and map them with the source map to the original files.
 
 ## Usage
 ### SourceMaps
-To parse a sourcemap located at `./app.js.map`
+To parse a sourcemap
 
 ```csharp
 using SourceMaps
 // ...
 
-var map = File.ReadAllText("./app.js.map");
-var sourceMap = SourceMapParser.Parse(map);
+var sourceMap = SourceMapParser.Parse(sourceMapAsString);
 ```
 
-To get the original mapping for a generated position, use
+To get the original mapping for a given generated position, use
 
 ```csharp
-var mapping = sourceMap.OriginalPositionFor(/* generatedLineNumber */ 1, /* generatedColumnNumber */ 1);
+var mapping = sourceMap.OriginalPositionFor(generatedLineNumber: 1, generatedColumnNumber: 1);
 
 mapping.OriginalName; // original token name
 mapping.OriginalFileName; // original file name
@@ -38,5 +37,11 @@ mapping.OriginalSourcePosition.ColumnNumber; // original column number
 To get the original stack trace using the source maps
 
 ```csharp
-StackTraceParser.ReTrace(sourceMap, /* JavaScript StackTrace */ "...", /* optional source root */ "https://localhost:5001/js/")
+StackTraceParser.ReTrace(
+    sourceMap,
+    stackTrace: @"ReferenceError: ""getExceptionProps"" is undefined
+    at eval code (eval code:1:1)
+    at foo (http://path/to/file.js:58:17)
+    at bar (http://path/to/file.js:109:1)",
+    sourceRoot: "https://localhost:5001/js/");
 ```
