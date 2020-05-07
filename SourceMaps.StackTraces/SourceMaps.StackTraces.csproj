@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
 
         <PackageId>SourceMaps.StackTraces</PackageId>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <Authors>sleeuwen</Authors>
         <Description>.NET Standard 2.0 library for parsing javascript stacktraces and mapping them to sourcemaps</Description>
         <PackageDescription>.NET Standard 2.0 library for parsing javascript stacktraces and mapping them to sourcemaps</PackageDescription>
