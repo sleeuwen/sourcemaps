@@ -54,7 +54,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     },
                     new StackFrame
                     {
-                        File = "https://localhost:5001/dist/site.js", Method = "<unknown>",
+                        File = "https://localhost:5001/dist/site.js", Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1, ColumnNumber = 524
                     },
@@ -82,7 +82,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     },
                     new StackFrame
                     {
-                        File = "https://localhost:5001/dist/site.js", Method = "<unknown>",
+                        File = "https://localhost:5001/dist/site.js", Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1, ColumnNumber = 524
                     },
@@ -130,7 +130,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "C:\\\\project files\\\\spect\\\\node_modules\\\\esm\\\\esm.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 34535,
@@ -138,7 +138,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "C:\\\\project files\\\\spect\\\\node_modules\\\\esm\\\\esm.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 34176,
@@ -251,7 +251,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "102.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 2956,
@@ -275,7 +275,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "42.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 822,
@@ -331,7 +331,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://path/to/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 48,
                         ColumnNumber = null,
@@ -355,7 +355,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "[native code]",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = null,
                         ColumnNumber = null,
@@ -371,7 +371,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://path/to/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 48,
                         ColumnNumber = 22,
@@ -403,7 +403,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://path/to/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 47,
                         ColumnNumber = 22,
@@ -468,7 +468,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://127.0.0.1:8000/js/stacktrace.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 44,
                         ColumnNumber = null,
@@ -476,7 +476,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://127.0.0.1:8000/js/stacktrace.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = new string[] { "null" },
                         LineNumber = 31,
                         ColumnNumber = null,
@@ -516,7 +516,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://127.0.0.1:8000/js/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 24,
                         ColumnNumber = null,
@@ -532,7 +532,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "file:///G:/js/stacktrace.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 44,
                         ColumnNumber = null,
@@ -540,7 +540,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "file:///G:/js/stacktrace.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = new string[] { "null" },
                         LineNumber = 31,
                         ColumnNumber = null,
@@ -580,7 +580,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "file:///G:/js/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 24,
                         ColumnNumber = null,
@@ -596,7 +596,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://path/to/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 48,
                         ColumnNumber = null,
@@ -682,7 +682,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "file:///path/to/index.html",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 23,
                         ColumnNumber = 1,
@@ -737,7 +737,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://path/to/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 24,
                         ColumnNumber = 4,
@@ -879,7 +879,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://localhost:8080/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 31,
                         ColumnNumber = 13,
@@ -919,7 +919,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "blob:http%3A//localhost%3A8080/d4eefe0f-361a-4682-b217-76587d9f712a",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 15,
                         ColumnNumber = 10978,
@@ -927,7 +927,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "blob:http%3A//localhost%3A8080/abfc40e9-4742-44ed-9dcd-af8f99a29379",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 6911,
@@ -1055,7 +1055,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://path/to/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 47,
                         ColumnNumber = 22,
@@ -1086,7 +1086,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "file:///path/to/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 878,
                         ColumnNumber = null,
@@ -1102,7 +1102,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://path/to/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 4287,
                         ColumnNumber = null,
@@ -1151,7 +1151,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://localhost:8080/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 26,
                         ColumnNumber = null,
@@ -1167,7 +1167,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "http://localhost:8080/file.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 33,
                         ColumnNumber = 9,
@@ -1301,7 +1301,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "[native code]",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = null,
                         ColumnNumber = null,
@@ -1367,14 +1367,14 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "C:\\\\projects\\\\spect\\\\node_modules\\\\esm\\\\esm.js",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 34535,
                     },
                     new StackFrame
                     {
-                        File = "C:\\\\projects\\\\spect\\\\node_modules\\\\esm\\\\esm.js", Method = "<unknown>",
+                        File = "C:\\\\projects\\\\spect\\\\node_modules\\\\esm\\\\esm.js", Method = null,
                         Arguments = Array.Empty<string>(), LineNumber = 1, ColumnNumber = 34176
                     },
                     new StackFrame
@@ -1416,7 +1416,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "<anonymous>",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 2,
@@ -1437,7 +1437,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "repl",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 2,
@@ -1521,7 +1521,7 @@ throwErr@https://localhost:5001/dist/site.js:1:45
                     new StackFrame
                     {
                         File = "repl",
-                        Method = "<unknown>",
+                        Method = null,
                         Arguments = Array.Empty<string>(),
                         LineNumber = 1,
                         ColumnNumber = 1,
