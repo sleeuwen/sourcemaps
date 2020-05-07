@@ -3,22 +3,62 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace SourceMaps
 {
     public static class SourceMapParser
     {
-        public static SourceMap Parse(string sourceMapString)
+        /// <summary>
+        /// Parses a stream of sourcemap data into a SourceMap
+        /// </summary>
+        /// <param name="stream">The stream containing sourcemap data</param>
+        /// <returns>The decoded SourceMap</returns>
+        /// <exception cref="InvalidSourceMapException">when the stream did not contain a valid sourcemap</exception>
+        public static async Task<SourceMap> ParseAsync(Stream stream)
         {
-            var sourceMap = JsonSerializer.Deserialize<SourceMap>(sourceMapString);
+            var sourceMap = await JsonSerializer.DeserializeAsync<SourceMap>(stream);
             if (sourceMap.Version != 3)
-                throw new ArgumentException($"Unknown source map version: {sourceMap.Version}");
+                throw new InvalidSourceMapException("Unsupported source map version");
 
             if (!string.IsNullOrEmpty(sourceMap.SourceRoot))
                 sourceMap.Sources = sourceMap.Sources.Select(source => Path.Combine(sourceMap.SourceRoot, source)).ToList();
 
-            sourceMap.Mappings = ParseMappings(sourceMap.MappingsString, sourceMap.Names, sourceMap.Sources);
-            return sourceMap;
+            try
+            {
+                sourceMap.Mappings = ParseMappings(sourceMap.MappingsString, sourceMap.Names, sourceMap.Sources);
+                return sourceMap;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidSourceMapException("Unable to parse sourcemap", ex);
+            }
+        }
+
+        /// <summary>
+        /// Parses a string of sourcemap data into a SourceMap
+        /// </summary>
+        /// <param name="sourceMapString">The string containing sourcemap data</param>
+        /// <returns>The decoded SourceMap</returns>
+        /// <exception cref="InvalidSourceMapException">when the string did not contain a valid sourcemap</exception>
+        public static SourceMap Parse(string sourceMapString)
+        {
+            var sourceMap = JsonSerializer.Deserialize<SourceMap>(sourceMapString);
+            if (sourceMap.Version != 3)
+                throw new ArgumentException("Unknown source map version");
+
+            if (!string.IsNullOrEmpty(sourceMap.SourceRoot))
+                sourceMap.Sources = sourceMap.Sources.Select(source => Path.Combine(sourceMap.SourceRoot, source)).ToList();
+
+            try
+            {
+                sourceMap.Mappings = ParseMappings(sourceMap.MappingsString, sourceMap.Names, sourceMap.Sources);
+                return sourceMap;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidSourceMapException("Unable to parse sourcemap", ex);
+            }
         }
 
         internal static List<SourceMapMappingEntry> ParseMappings(string mappings, List<string> names, List<string> sources)
@@ -48,21 +88,21 @@ namespace SourceMaps
             _ = segmentFields ?? throw new ArgumentNullException(nameof(segmentFields));
 
             if (segmentFields.Count != 1 && segmentFields.Count != 4 && segmentFields.Count != 5)
-                throw new ArgumentOutOfRangeException(nameof(segmentFields), $"Expected 1, 4 or 5 fields, got {segmentFields.Count}");
+                throw new ArgumentOutOfRangeException(nameof(segmentFields), $"Expected 1, 4 or 5 decoded segments, got {segmentFields.Count}");
 
             state.SegmentCount = segmentFields.Count;
             state.GeneratedColumnNumber += segmentFields[0];
 
             if (state.ContainsSourceLocation)
             {
-                state.SourcesListIndex = (state.SourcesListIndex ?? 0) + segmentFields[1];
-                state.OriginalLineNumber = (state.OriginalLineNumber ?? 0) + segmentFields[2];
-                state.OriginalColumnNumber = (state.OriginalColumnNumber ?? 0) + segmentFields[3];
+                state.SourcesListIndex += segmentFields[1];
+                state.OriginalLineNumber += segmentFields[2];
+                state.OriginalColumnNumber += segmentFields[3];
             }
 
             if (state.ContainsOriginalName)
             {
-                state.NamesListIndex = (state.NamesListIndex ?? 0) + segmentFields[4];
+                state.NamesListIndex += segmentFields[4];
             }
         }
     }
@@ -71,41 +111,23 @@ namespace SourceMaps
     {
         public int GeneratedLineNumber;
         public int GeneratedColumnNumber;
-        public int? SourcesListIndex;
-        public int? OriginalLineNumber;
-        public int? OriginalColumnNumber;
-        public int? NamesListIndex;
+        public int SourcesListIndex;
+        public int OriginalLineNumber;
+        public int OriginalColumnNumber;
+        public int NamesListIndex;
 
         internal int SegmentCount;
 
         internal bool ContainsSourceLocation => SegmentCount > 1;
         internal bool ContainsOriginalName => SegmentCount >= 5;
 
-        public MappingParserState(
-            int generatedLineNumber,
-            int generatedColumnNumber,
-            int sourcesListIndex,
-            int originalLineNumber,
-            int originalColumnNumber,
-            int namesListIndex)
-        {
-            this.GeneratedLineNumber = generatedLineNumber;
-            this.GeneratedColumnNumber = generatedColumnNumber;
-            this.OriginalLineNumber = originalLineNumber;
-            this.OriginalColumnNumber = originalColumnNumber;
-            this.SourcesListIndex = sourcesListIndex;
-            this.NamesListIndex = namesListIndex;
-
-            this.SegmentCount = 0;
-        }
-
         public SourceMapMappingEntry GetCurrentSourceMapMappingEntry(List<string> names, List<string> sources)
             => new SourceMapMappingEntry(
                 GeneratedLineNumber,
                 GeneratedColumnNumber,
-                ContainsSourceLocation ? OriginalLineNumber : null,
-                ContainsSourceLocation ? OriginalColumnNumber : null,
-                ContainsOriginalName ? names[NamesListIndex.Value] : null,
-                ContainsSourceLocation ? sources[SourcesListIndex.Value] : null);
+                ContainsSourceLocation ? OriginalLineNumber : (int?)null,
+                ContainsSourceLocation ? OriginalColumnNumber : (int?)null,
+                ContainsOriginalName ? names[NamesListIndex] : null,
+                ContainsSourceLocation ? sources[SourcesListIndex] : null);
     }
 }

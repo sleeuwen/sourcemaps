@@ -4,7 +4,7 @@ namespace SourceMaps
 {
     public readonly struct SourceMapMappingEntry : IEquatable<SourceMapMappingEntry>
     {
-        public SourceMapMappingEntry(int generatedLineNumber, int generatedColumnNumber, int? originalLineNumber, int? originalColumnNumber, string originalName, string originalFileName)
+        public SourceMapMappingEntry(int generatedLineNumber, int generatedColumnNumber, int? originalLineNumber, int? originalColumnNumber, string? originalName, string? originalFileName)
         {
             this.GeneratedLineNumber = generatedLineNumber;
             this.GeneratedColumnNumber = generatedColumnNumber;
@@ -37,12 +37,12 @@ namespace SourceMaps
         /// <summary>
         /// Original element name
         /// </summary>
-        public string OriginalName { get; }
+        public string? OriginalName { get; }
 
         /// <summary>
         /// Original file name
         /// </summary>
-        public string OriginalFileName { get; }
+        public string? OriginalFileName { get; }
 
         public static bool operator ==(SourceMapMappingEntry left, SourceMapMappingEntry right)
             => Equals(left, right);

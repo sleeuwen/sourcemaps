@@ -9,25 +9,25 @@ namespace SourceMaps
         public int Version { get; set; }
 
         [JsonPropertyName("file")]
-        public string File { get; set; }
+        public string? File { get; set; }
 
         [JsonPropertyName("sourceRoot")]
-        public string SourceRoot { get; set; }
+        public string? SourceRoot { get; set; }
 
         [JsonPropertyName("sources")]
-        public List<string> Sources { get; set; }
+        public List<string> Sources { get; set; } = new List<string>();
 
         [JsonPropertyName("sourcesContent")]
-        public List<string> SourcesContent { get; set; }
+        public List<string>? SourcesContent { get; set; }
 
         [JsonPropertyName("names")]
-        public List<string> Names { get; set; }
+        public List<string> Names { get; set; } = new List<string>();
 
         [JsonPropertyName("mappings")]
-        public string MappingsString { get; set; }
+        public string MappingsString { get; set; } = "";
 
         [JsonIgnore]
-        public List<SourceMapMappingEntry> Mappings { get; set; }
+        public List<SourceMapMappingEntry>? Mappings { get; set; }
 
         /// <summary>
         /// Returns the original source, line and column information for the generated

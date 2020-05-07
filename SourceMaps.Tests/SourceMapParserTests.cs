@@ -11,7 +11,7 @@ namespace SourceMaps.Tests
         [Fact]
         public void ApplyMappingSegment_CorrectlyUpdatesState()
         {
-            var state = new MappingParserState(1, 2, 3, 4, 5, 6);
+            var state = new MappingParserState { GeneratedLineNumber = 1, GeneratedColumnNumber = 2, SourcesListIndex = 3, OriginalLineNumber = 4, OriginalColumnNumber = 5, NamesListIndex = 6 };
 
             var segmentFields = new List<int> { 4 }; // Only column number
             SourceMapParser.ApplyMappingSegment(segmentFields, ref state);
