@@ -21,20 +21,21 @@ namespace SourceMaps.StackTraces
                 if (!string.IsNullOrEmpty(sourceRoot))
                     frame.File = frame.File.Replace(sourceRoot, "");
 
-                var sourceMap = sourceMaps.GetSourceMapFor(frame.File)
-                                ?? sourceMaps.GetSourceMapFor(frame.File.Substring(0, frame.File.IndexOf('?')));
+                var sourceMap = sourceMaps.GetSourceMapFor(frame.File);
+                if (sourceMap == null && frame.File.IndexOf('?') >= 0)
+                    sourceMap = sourceMaps.GetSourceMapFor(frame.File.Substring(0, frame.File.IndexOf('?')));
 
                 if (frame.LineNumber == null || frame.ColumnNumber == null)
                     continue;
 
-                var originalPosition = sourceMap?.OriginalPositionFor(frame.LineNumber.Value, frame.ColumnNumber.Value);
+                var originalPosition = sourceMap?.OriginalPositionFor(frame.LineNumber.Value - 1, frame.ColumnNumber.Value - 1);
                 if (originalPosition == null)
                     continue;
 
                 frame.File = originalPosition?.OriginalFileName ?? frame.File;
                 frame.Method = originalPosition?.OriginalName ?? frame.Method;
-                frame.LineNumber = originalPosition?.OriginalLineNumber ?? frame.LineNumber;
-                frame.ColumnNumber = originalPosition?.OriginalColumnNumber ?? frame.ColumnNumber;
+                frame.LineNumber = (originalPosition?.OriginalLineNumber + 1) ?? frame.LineNumber;
+                frame.ColumnNumber = (originalPosition?.OriginalColumnNumber + 1) ?? frame.ColumnNumber;
             }
 
             return trace.ToString();
@@ -77,7 +78,7 @@ namespace SourceMaps.StackTraces
 
             frame = new StackFrame();
             frame.File = !isNative ? match.Groups[2].Value : null;
-            frame.Method = !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : "<unknown>";
+            frame.Method = !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : null;
             frame.Arguments = isNative ? new[] { match.Groups[2].Value } : Array.Empty<string>();
             frame.LineNumber = !string.IsNullOrEmpty(match.Groups[3].Value) ? int.Parse(match.Groups[3].Value) : (int?)null;
             frame.ColumnNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?) null;
@@ -105,7 +106,7 @@ namespace SourceMaps.StackTraces
             frame = new StackFrame
             {
                 File = match.Groups[2].Value,
-                Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : "<unknown>",
+                Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : null,
                 Arguments = Array.Empty<string>(),
                 LineNumber = int.Parse(match.Groups[3].Value),
                 ColumnNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?)null,
@@ -129,7 +130,7 @@ namespace SourceMaps.StackTraces
             frame = new StackFrame
             {
                 File = match.Groups[3].Value,
-                Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : "<unknown>",
+                Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : null,
                 Arguments = !string.IsNullOrEmpty(match.Groups[2].Value) ? match.Groups[2].Value.Split(',') : Array.Empty<string>(),
                 LineNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?)null,
                 ColumnNumber = !string.IsNullOrEmpty(match.Groups[5].Value) ? int.Parse(match.Groups[5].Value) : (int?)null,
@@ -157,7 +158,7 @@ namespace SourceMaps.StackTraces
 
             frame = new StackFrame();
             frame.File = match.Groups[2].Value;
-            frame.Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : "<unknown>";
+            frame.Method =  !string.IsNullOrEmpty(match.Groups[1]?.Value) ? match.Groups[1].Value : null;
             frame.Arguments = Array.Empty<string>();
             frame.LineNumber = int.Parse(match.Groups[3].Value);
             frame.ColumnNumber = !string.IsNullOrEmpty(match.Groups[4].Value) ? int.Parse(match.Groups[4].Value) : (int?)null;
@@ -177,7 +178,7 @@ namespace SourceMaps.StackTraces
 
             frame = new StackFrame();
             frame.File = match.Groups[3].Value;
-            frame.Method = !string.IsNullOrEmpty(match.Groups[1].Value) ? match.Groups[1].Value : "<unknown>";
+            frame.Method = !string.IsNullOrEmpty(match.Groups[1].Value) ? match.Groups[1].Value : null;
             frame.Arguments = Array.Empty<string>();
             frame.LineNumber = int.Parse(match.Groups[4].Value);
             frame.ColumnNumber = !string.IsNullOrEmpty(match.Groups[5].Value) ? int.Parse(match.Groups[5].Value) : (int?)null;

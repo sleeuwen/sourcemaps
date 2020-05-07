@@ -50,16 +50,17 @@ namespace SourceMaps
             if (segmentFields.Count != 1 && segmentFields.Count != 4 && segmentFields.Count != 5)
                 throw new ArgumentOutOfRangeException(nameof(segmentFields), $"Expected 1, 4 or 5 fields, got {segmentFields.Count}");
 
+            state.SegmentCount = segmentFields.Count;
             state.GeneratedColumnNumber += segmentFields[0];
 
-            if (segmentFields.Count > 1)
+            if (state.ContainsSourceLocation)
             {
                 state.SourcesListIndex = (state.SourcesListIndex ?? 0) + segmentFields[1];
                 state.OriginalLineNumber = (state.OriginalLineNumber ?? 0) + segmentFields[2];
                 state.OriginalColumnNumber = (state.OriginalColumnNumber ?? 0) + segmentFields[3];
             }
 
-            if (segmentFields.Count >= 5)
+            if (state.ContainsOriginalName)
             {
                 state.NamesListIndex = (state.NamesListIndex ?? 0) + segmentFields[4];
             }
@@ -75,6 +76,11 @@ namespace SourceMaps
         public int? OriginalColumnNumber;
         public int? NamesListIndex;
 
+        internal int SegmentCount;
+
+        internal bool ContainsSourceLocation => SegmentCount > 1;
+        internal bool ContainsOriginalName => SegmentCount >= 5;
+
         public MappingParserState(
             int generatedLineNumber,
             int generatedColumnNumber,
@@ -89,15 +95,17 @@ namespace SourceMaps
             this.OriginalColumnNumber = originalColumnNumber;
             this.SourcesListIndex = sourcesListIndex;
             this.NamesListIndex = namesListIndex;
+
+            this.SegmentCount = 0;
         }
 
         public SourceMapMappingEntry GetCurrentSourceMapMappingEntry(List<string> names, List<string> sources)
             => new SourceMapMappingEntry(
                 GeneratedLineNumber,
                 GeneratedColumnNumber,
-                OriginalLineNumber,
-                OriginalColumnNumber,
-                NamesListIndex.HasValue ? names[NamesListIndex.Value] : null,
-                SourcesListIndex.HasValue ? sources[SourcesListIndex.Value] : null);
+                ContainsSourceLocation ? OriginalLineNumber : null,
+                ContainsSourceLocation ? OriginalColumnNumber : null,
+                ContainsOriginalName ? names[NamesListIndex.Value] : null,
+                ContainsSourceLocation ? sources[SourcesListIndex.Value] : null);
     }
 }

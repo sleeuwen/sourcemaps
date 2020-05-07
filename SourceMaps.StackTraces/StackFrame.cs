@@ -13,8 +13,8 @@ namespace SourceMaps.StackTraces
             var pos = $"{File}:{LineNumber}:{ColumnNumber}";
 
             if (string.IsNullOrEmpty(Method))
-                return pos;
-            return $"{Method} ({pos})";
+                return $"  at {pos}";
+            return $"  at {Method}{(Arguments.Length > 0 ? $"({string.Join(", ", Arguments)})" : "")} ({pos})";
         }
     }
 }

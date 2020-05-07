@@ -14,11 +14,34 @@ namespace SourceMaps
             this.OriginalFileName = originalFileName;
         }
 
+        /// <summary>
+        /// Zero-based generated line number
+        /// </summary>
         public int GeneratedLineNumber { get; }
+
+        /// <summary>
+        /// Zero-based generated column number
+        /// </summary>
         public int GeneratedColumnNumber { get; }
+
+        /// <summary>
+        /// Zero-based original line number
+        /// </summary>
         public int? OriginalLineNumber { get; }
+
+        /// <summary>
+        /// Zero-based original column number
+        /// </summary>
         public int? OriginalColumnNumber { get; }
+
+        /// <summary>
+        /// Original element name
+        /// </summary>
         public string OriginalName { get; }
+
+        /// <summary>
+        /// Original file name
+        /// </summary>
         public string OriginalFileName { get; }
 
         public static bool operator ==(SourceMapMappingEntry left, SourceMapMappingEntry right)

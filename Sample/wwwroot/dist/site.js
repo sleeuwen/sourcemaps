@@ -1,2 +1,0 @@
-"use strict";var throwErr=function(){return increment(4)};window.increment=function(t){window.undefinedFunctionCall()},window.addEventListener("error",(function(t){document.querySelector("#stacktrace").textContent="Original stack trace:\n".concat(t.error.stack,"\n\n"),fetch("/retrace/retrace",{method:"POST",body:t.error.stack,headers:{"Content-Type":"text/plain"}}).then((function(t){return t.text()})).then((function(t){return document.querySelector("#stacktrace").textContent+="ReTraced stack trace:\n".concat(t)}))})),throwErr();
-//# sourceMappingURL=site.js.map

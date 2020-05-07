@@ -33,8 +33,8 @@ namespace SourceMaps
         /// Returns the original source, line and column information for the generated
         /// source's line and column positions provided.
         /// </summary>
-        /// <param name="generatedLineNumber">The line number in the generated source, 1-based.</param>
-        /// <param name="generatedColumnNumber">The column number in the generated source, 0-based</param>
+        /// <param name="generatedLineNumber">The zero-based line number in the generated source, 1-based.</param>
+        /// <param name="generatedColumnNumber">The zero-based column number in the generated source, 0-based</param>
         /// <returns>A struct with the original mappings, or null if no mapping exit for the given line and column number.</returns>
         public SourceMapMappingEntry? OriginalPositionFor(int generatedLineNumber, int generatedColumnNumber)
         {
