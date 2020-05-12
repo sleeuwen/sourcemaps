@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
 
         <PackageId>SourceMaps</PackageId>
-        <Version>0.2.0</Version>
+        <Version>0.2.1</Version>
         <Authors>sleeuwen</Authors>
         <Description>.NET Standard 2.0 library for parsing sourcemaps</Description>
         <PackageDescription>.NET Standard 2.0 library for parsing sourcemaps</PackageDescription>
@@ -14,6 +14,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Title>SourceMaps</Title>
         <PackageTags>source-map</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
         <!-- SourceLink -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
