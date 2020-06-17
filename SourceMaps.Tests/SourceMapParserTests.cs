@@ -138,7 +138,7 @@ namespace SourceMaps.Tests
                 }
             };
 
-            var pos = map.OriginalPositionFor(2, 2).Value;
+            var pos = map.OriginalPositionFor(3, 2).Value;
             Assert.Equal("foo/bar/bang.coffee", pos.OriginalFileName);
             Assert.Equal(1, pos.OriginalLineNumber);
             Assert.Equal(1, pos.OriginalColumnNumber);

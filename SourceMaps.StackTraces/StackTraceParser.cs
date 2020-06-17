@@ -28,7 +28,7 @@ namespace SourceMaps.StackTraces
                 if (frame.LineNumber == null || frame.ColumnNumber == null)
                     continue;
 
-                var originalPosition = sourceMap?.OriginalPositionFor(frame.LineNumber.Value - 1, frame.ColumnNumber.Value - 1);
+                var originalPosition = sourceMap?.OriginalPositionFor(frame.LineNumber.Value, frame.ColumnNumber.Value - 1);
                 if (originalPosition == null)
                     continue;
 

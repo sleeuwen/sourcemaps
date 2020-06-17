@@ -33,28 +33,20 @@ namespace SourceMaps
         /// Returns the original source, line and column information for the generated
         /// source's line and column positions provided.
         /// </summary>
-        /// <param name="generatedLineNumber">The zero-based line number in the generated source, 1-based.</param>
-        /// <param name="generatedColumnNumber">The zero-based column number in the generated source, 0-based</param>
+        /// <param name="generatedLineNumber">The one-based line number in the generated source.</param>
+        /// <param name="generatedColumnNumber">The zero-based column number in the generated source</param>
         /// <returns>A struct with the original mappings, or null if no mapping exit for the given line and column number.</returns>
         public SourceMapMappingEntry? OriginalPositionFor(int generatedLineNumber, int generatedColumnNumber)
         {
             if (Mappings == null)
                 return null;
 
-            var index = Mappings.BinarySearch(
-                new SourceMapMappingEntry(generatedLineNumber, generatedColumnNumber, null, null, null, null),
-                Comparer<SourceMapMappingEntry>.Create((a, b) =>
-                {
-                    var lineNumberComparison = a.GeneratedLineNumber.CompareTo(b.GeneratedLineNumber);
-                    if (lineNumberComparison != 0) return lineNumberComparison;
-                    return a.GeneratedColumnNumber.CompareTo(b.GeneratedColumnNumber);
-                }));
+            var searchEntry = new SourceMapMappingEntry(generatedLineNumber - 1, generatedColumnNumber, null, null, null, null);
+            var index = Mappings.BinarySearch(searchEntry, MappingEntryComparer);
 
             if (index < 0)
             {
-                if (~index - 1 >= 0 &&
-                    Mappings[~index - 1].GeneratedLineNumber == generatedLineNumber &&
-                    Mappings[~index - 1].GeneratedColumnNumber == generatedColumnNumber)
+                if (~index - 1 >= 0)
                 {
                     index = ~index - 1;
                 }
@@ -62,5 +54,14 @@ namespace SourceMaps
 
             return index >= 0 ? Mappings[index] : (SourceMapMappingEntry?)null;
         }
+
+        private static readonly IComparer<SourceMapMappingEntry> MappingEntryComparer = Comparer<SourceMapMappingEntry>.Create((a, b) =>
+        {
+            var lineNumberCompare = a.GeneratedLineNumber.CompareTo(b.GeneratedLineNumber);
+            if (lineNumberCompare != 0)
+                return lineNumberCompare;
+
+            return a.GeneratedColumnNumber.CompareTo(b.GeneratedColumnNumber);
+        });
     }
 }
