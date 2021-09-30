@@ -15,6 +15,7 @@
         <Title>SourceMaps.StackTraces</Title>
         <PackageTags>source-map;javascript-stacktrace</PackageTags>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
 
         <!-- SourceLink -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -27,7 +28,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SourceMaps\SourceMaps.csproj" />
+        <ProjectReference Include="..\SourceMaps\SourceMaps.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
