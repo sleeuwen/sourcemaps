@@ -1,25 +1,23 @@
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SourceMaps;
 using SourceMaps.StackTraces;
 
-namespace Sample.Controllers
+namespace Sample.Controllers;
+
+[ApiController]
+public class ApiController : ControllerBase
 {
-    public class ApiController : Controller
+    private readonly SourceMapCollection _sourceMapCollection;
+
+    public ApiController(SourceMapCollection sourceMapCollection)
     {
-        private readonly SourceMapCollection _sourceMaps;
+        _sourceMapCollection = sourceMapCollection;
+    }
 
-        public ApiController(SourceMapCollection sourceMaps)
-        {
-            _sourceMaps = sourceMaps;
-        }
-
-        [HttpPost("/api/retrace")]
-        public async Task<string> ReTrace()
-        {
-            var stacktrace = await new StreamReader(Request.Body).ReadToEndAsync();
-            return StackTraceParser.ReTrace(_sourceMaps, stacktrace, $"{Request.Scheme}://{Request.Host}{Request.PathBase}/");
-        }
+    [HttpPost("/api/retrace")]
+    public async Task<string> ReTrace()
+    {
+        var stacktrace = await new StreamReader(Request.Body).ReadToEndAsync();
+        return StackTraceParser.ReTrace(_sourceMapCollection, stacktrace, $"{Request.Scheme}://{Request.Host}{Request.PathBase}/");
     }
 }

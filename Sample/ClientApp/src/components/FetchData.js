@@ -13,7 +13,8 @@ export class FetchData extends Component {
   }
 
   static renderForecastsTable(forecasts) {
-      throw new Error('Oops');
+    throw new Error("Oops in fetch data");
+
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
